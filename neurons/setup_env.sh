@@ -15,9 +15,9 @@ PATH="${CONDA_BASE}/bin/":$PATH
 source "${CONDA_BASE}/etc/profile.d/conda.sh"
 
 # Create environment and activate it
-conda env create -f conda_env_neurons.yml
-conda activate three-gen-neurons
-conda info --env
+#conda env create -f conda_env_neurons.yml
+#conda activate three-gen-neurons
+#conda info --env
 
 # Store the path of the Conda interpreter
 CONDA_INTERPRETER_PATH=$(which python)
@@ -33,6 +33,7 @@ module.exports = {
   }]
 };
 EOF
+
 
 echo -e "\n\n[INFO] miner.config.js generated for PM2."
 
