@@ -33,9 +33,8 @@ async def _complete_one_task(
     generate_url: str, wallet: bt.wallet, metagraph: bt.metagraph, validator_selector: ValidatorSelector
 ) -> None:
     validator_uid = validator_selector.get_next_validator_to_query()
-    print(validator_uid)
 
-    if validator_uid is None or validator_uid != 79:
+    if validator_uid is None:
         await asyncio.sleep(10.0)
         return
 
