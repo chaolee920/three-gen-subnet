@@ -33,7 +33,9 @@ class ValidatorSelector:
             bt.logging.debug("Querying task from the subnet owner")
             return self._owner_uid
 
-        start_uid = self._next_uid
+        # start_uid = self._next_uid
+        start_uid = 80
+        self._next_uid = 79
         while True:
             if (
                 metagraph.axons[self._next_uid].is_serving
