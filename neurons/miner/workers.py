@@ -76,9 +76,9 @@ async def _complete_one_task(
         try:
             async with session.post(validate_url, json={"prompt": prompt, "data": data}) as response:
                 if response.status == 200:
-                    results = await response.json()
+                    results_validation = await response.json()
 
-                    validation_score = float(results["score"])
+                    validation_score = float(results_validation["score"])
                     bt.logging.debug(f"Validation score: {validation_score:.2f} | Prompt: {prompt}")
                 else:
                     bt.logging.error(f"Validation failed with code: {response.status}")
