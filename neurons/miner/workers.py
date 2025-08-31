@@ -70,7 +70,7 @@ async def _complete_one_task(
 # Adding validation myself
     validate_url = 'http://127.0.0.1:8094/validate_txt_to_3d_ply'
     prompt = pull.task.prompt
-    data = './test_validation/result.ply'
+    data = '/workspace/vol-sub17/test-ply/result.ply'
     endpoint = 'http://127.0.0.1:8094'
     async with aiohttp.ClientSession() as session:
         try:
