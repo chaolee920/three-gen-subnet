@@ -39,7 +39,7 @@ async def _complete_one_task(
         return
 
     # Setting cooldown to prevent selecting the same validator for concurrent task.
-    validator_selector.set_cooldown(validator_uid, int(time.time()) + 300)
+    validator_selector.set_cooldown(validator_uid, int(time.time()) + 30)
 
     async with bt.dendrite(wallet=wallet) as dendrite:
         pull = await _pull_task(dendrite, metagraph, validator_uid)
@@ -67,19 +67,46 @@ async def _complete_one_task(
 
     results = await _generate(generate_url, pull.task.prompt) or b""
 
-    async with bt.dendrite(wallet=wallet) as dendrite:
-        submit = await _submit_results(wallet, dendrite, metagraph, validator_uid, pull, results)
-        if submit.feedback is None:
-            bt.logging.warning(
-                f"Failed to submit results to [{metagraph.hotkeys[validator_uid]}]. "
-                f"Reason: {submit.dendrite.status_message}."
-            )
-            validator_selector.set_cooldown(validator_uid, int(time.time()) + FAILED_VALIDATOR_DELAY)
-            return
+# Adding validation myself
+    validate_url = 'http://127.0.0.1:8094/validate_txt_to_3d_ply'
+    prompt = pull.task.prompt
+    data = './test_validation/result.ply'
+    endpoint = 'http://127.0.0.1:8094'
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(validate_url, json={"prompt": prompt, "data": data}) as response:
+                if response.status == 200:
+                    results = await response.json()
 
-    _log_feedback(validator_uid, submit)
+                    validation_score = float(results["score"])
+                    bt.logging.debug(f"Validation score: {validation_score:.2f} | Prompt: {prompt}")
+                else:
+                    bt.logging.error(f"Validation failed with code: {response.status}")
+        except aiohttp.ClientConnectorError:
+            bt.logging.error(f"Failed to connect to the endpoint. The endpoint might be inaccessible: {endpoint}.")
+        except TimeoutError:
+            bt.logging.error(f"The request to the endpoint timed out: {endpoint}")
+        except aiohttp.ClientError as e:
+            bt.logging.error(f"An unexpected client error occurred: {e} ({endpoint})")
+        except Exception as e:
+            bt.logging.error(f"An unexpected error occurred: {e} ({endpoint})")
 
-    validator_selector.set_cooldown(validator_uid, submit.cooldown_until)
+    if validation_score > 0.7:
+        async with bt.dendrite(wallet=wallet) as dendrite:
+            submit = await _submit_results(wallet, dendrite, metagraph, validator_uid, pull, results)
+            if submit.feedback is None:
+                bt.logging.warning(
+                    f"Failed to submit results to [{metagraph.hotkeys[validator_uid]}]. "
+                    f"Reason: {submit.dendrite.status_message}."
+                )
+                validator_selector.set_cooldown(validator_uid, int(time.time()) + FAILED_VALIDATOR_DELAY)
+                return
+        _log_feedback(validator_uid, submit)
+        validator_selector.set_cooldown(validator_uid, submit.cooldown_until)
+    else:
+        print('your score is too low to submit.')
+
+    
 
 
 async def _pull_task(dendrite: bt.dendrite, metagraph: bt.metagraph, validator_uid: int) -> PullTask:
