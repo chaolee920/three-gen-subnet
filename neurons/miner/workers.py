@@ -74,7 +74,7 @@ async def _complete_one_task(
     endpoint = 'http://127.0.0.1:8094'
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(validate_url, json={"prompt": prompt, "data": data}) as response:
+            async with session.post(validate_url, json={"prompt": prompt, "data": results}) as response:
                 if response.status == 200:
                     results_validation = await response.json()
 
