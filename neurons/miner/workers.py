@@ -33,7 +33,7 @@ async def _complete_one_task(
     generate_url: str, wallet: bt.wallet, metagraph: bt.metagraph, validator_selector: ValidatorSelector
 ) -> None:
     validator_uid = validator_selector.get_next_validator_to_query()
-
+    validator_score = 0
     if validator_uid is None:
         await asyncio.sleep(10.0)
         return
@@ -91,7 +91,7 @@ async def _complete_one_task(
         except Exception as e:
             bt.logging.error(f"An unexpected error occurred: {e} ({endpoint})")
 
-    if validation_score > 0.7:
+    if validation_score >= 0:
         async with bt.dendrite(wallet=wallet) as dendrite:
             submit = await _submit_results(wallet, dendrite, metagraph, validator_uid, pull, results)
             if submit.feedback is None:
