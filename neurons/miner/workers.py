@@ -3,7 +3,7 @@ import base64
 import time
 import typing
 import urllib.parse
-import trimesh
+import pybase64
 import aiohttp
 import bittensor as bt
 import pyspz
@@ -71,11 +71,16 @@ async def _complete_one_task(
     validate_url = 'http://127.0.0.1:8094/validate_txt_to_3d_ply'
     prompt = pull.task.prompt
     data = '/workspace/vol_sub17/test-ply/result.ply'
-    mesh = trimesh.load(data)
+    # Read the binary file content
+    with open(data, "rb") as file:
+        file_data = file.read()
+
+    # Encode the binary data to base64
+    encoded_data = pybase64.b64encode(file_data).decode("utf-8")
     endpoint = 'http://127.0.0.1:8094'
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(validate_url, json={"prompt": prompt, "data": mesh}) as response:
+            async with session.post(validate_url, json={"prompt": prompt, "data": encoded_data}) as response:
                 if response.status == 200:
                     results_validation = await response.json()
 
