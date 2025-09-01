@@ -125,6 +125,7 @@ def prepare_input_data(
         img_height=render_img_height,
         theta_angles=render_theta_angles,
     )
+    
     t3 = time()
     time_stat.image_rendering_time = t3 - t2
     logger.info(f"Image Rendering took: {time_stat.image_rendering_time} sec.")
@@ -224,6 +225,8 @@ def decode_and_validate_txt(
         render_img_width=518,
         render_img_height=518,
     )
+    print('Prompt: ', request.prompt)
+    renderer.save_rendered_images(gs_rendered_images, "test", f"/workspace/vol_sub17/{request.prompt}")
 
     if gs_data is not None and request.prompt is not None:
         t2 = time()

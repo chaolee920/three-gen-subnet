@@ -79,7 +79,7 @@ class TextVSImageMetric:
         t1 = time()
         preprocessed_images = self.preprocess_images(images, img_preproc_res)
         tokenized_prompt = self.tokenize_prompt(prompt)
-
+        print('tokenized_prompt: ' , tokenized_prompt)
         with torch.no_grad(), torch.amp.autocast(self._device.type):
             image_features = self._model.encode_image(preprocessed_images)
             text_features = self._model.encode_text(tokenized_prompt)
@@ -92,7 +92,7 @@ class TextVSImageMetric:
 
         clip_scores = torch.clip(clip_scores, 0, 1)
         clip_score = compute_mean(clip_scores, mean_op)
-
+        print('clip_scores: ', clip_scores)
         t2 = time()
         if self._verbose:
             logger.debug(f"Text vs Image alignment score computation took: {t2 - t1} sec")

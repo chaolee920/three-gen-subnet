@@ -60,7 +60,7 @@ class ValidationEngine:
                 * sigmoid(torch.tensor(validation_results.lpips_score), 30, 0.7)
             )
         validation_results.final_score = final_score
-
+        print('final_score: ',final_score)
         if self._verbose:
             logger.debug(f" ssim score: {validation_results.ssim_score}")
             logger.debug(f" lpips score: {validation_results.lpips_score}")
@@ -79,7 +79,11 @@ class ValidationEngine:
             prompt_image, images, mean_op="geometric_mean", use_filter_outliers=True
         )
         combined_quality_score, lpips_score, ssim_score = self._compute_image_based_metrics(images, mean_op)
-
+        print('alignment_score: ', alignment_score)
+        print('combined_quality_score: ', combined_quality_score)
+        print('lpips_score', lpips_score)
+        print('ssim_score', ssim_score)
+        
         validation_results = ValidationResult(
             final_score=0,
             combined_quality_score=combined_quality_score,
