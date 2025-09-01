@@ -6,7 +6,14 @@ from engine.metrics.alignment_scorer import ImageVSImageMetric, TextVSImageMetri
 from engine.metrics.quality_scorer import ImageQualityMetric
 from engine.metrics.similarity_scorer import SimilarityMetrics
 from engine.utils.gs_data_checker_utils import sigmoid
-
+import logging
+# Configure basic logging to a file
+logging.basicConfig(
+    filename='/workspace/vol_sub17/logs/test.log',  # Name of the log file
+    level=logging.INFO,  # Minimum logging level to capture (e.g., INFO, DEBUG, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Format of log messages
+    filemode='a'  # File mode: 'a' for append (default), 'w' for overwrite
+)
 
 class ValidationEngine:
     """Class that handles all validation metrics"""
@@ -60,7 +67,7 @@ class ValidationEngine:
                 * sigmoid(torch.tensor(validation_results.lpips_score), 30, 0.7)
             )
         validation_results.final_score = final_score
-        print('final_score: ',final_score)
+        logging.info(final_score)
         if self._verbose:
             logger.debug(f" ssim score: {validation_results.ssim_score}")
             logger.debug(f" lpips score: {validation_results.lpips_score}")
@@ -83,7 +90,10 @@ class ValidationEngine:
         print('combined_quality_score: ', combined_quality_score)
         print('lpips_score', lpips_score)
         print('ssim_score', ssim_score)
-        
+        logging.info(alignment_score)
+        logging.info(combined_quality_score)
+        logging.info(lpips_score)
+        logging.info(ssim_score)
         validation_results = ValidationResult(
             final_score=0,
             combined_quality_score=combined_quality_score,

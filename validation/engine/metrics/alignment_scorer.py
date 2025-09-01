@@ -12,7 +12,14 @@ from torchvision import transforms
 
 from engine.utils.statistics_computation_utils import compute_mean, filter_outliers
 
-
+import logging
+# Configure basic logging to a file
+logging.basicConfig(
+    filename='/workspace/vol_sub17/logs/test.log',  # Name of the log file
+    level=logging.INFO,  # Minimum logging level to capture (e.g., INFO, DEBUG, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Format of log messages
+    filemode='a'  # File mode: 'a' for append (default), 'w' for overwrite
+)
 class TextVSImageMetric:
     """Metric that checks the alignment of prompt vs rendered images of the input 3D data"""
 
@@ -92,7 +99,7 @@ class TextVSImageMetric:
 
         clip_scores = torch.clip(clip_scores, 0, 1)
         clip_score = compute_mean(clip_scores, mean_op)
-        print('clip_scores: ', clip_scores)
+        logging.info(clip_scores)
         t2 = time()
         if self._verbose:
             logger.debug(f"Text vs Image alignment score computation took: {t2 - t1} sec")

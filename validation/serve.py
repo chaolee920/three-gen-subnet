@@ -28,7 +28,14 @@ from fastapi import FastAPI, HTTPException
 from loguru import logger
 from PIL import Image
 from starlette.responses import StreamingResponse
-
+import logging
+# Configure basic logging to a file
+logging.basicConfig(
+    filename='/workspace/vol_sub17/logs/test.log',  # Name of the log file
+    level=logging.INFO,  # Minimum logging level to capture (e.g., INFO, DEBUG, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Format of log messages
+    filemode='a'  # File mode: 'a' for append (default), 'w' for overwrite
+)
 
 VERSION = "2.2.0"
 
@@ -225,7 +232,8 @@ def decode_and_validate_txt(
         render_img_width=518,
         render_img_height=518,
     )
-    print('Prompt: ', request.prompt)
+    
+    logging.info(request.prompt)
     renderer.save_rendered_images(gs_rendered_images, "test", f"/workspace/vol_sub17/{request.prompt}")
 
     if gs_data is not None and request.prompt is not None:
