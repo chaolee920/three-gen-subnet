@@ -67,7 +67,7 @@ class ValidationEngine:
                 * sigmoid(torch.tensor(validation_results.lpips_score), 30, 0.7)
             )
         validation_results.final_score = final_score
-        logging.info(final_score)
+        logging.info(f"final score: {final_score}")
         if self._verbose:
             logger.debug(f" ssim score: {validation_results.ssim_score}")
             logger.debug(f" lpips score: {validation_results.lpips_score}")
@@ -113,8 +113,9 @@ class ValidationEngine:
             ssim_score=ssim_score,
             lpips_score=lpips_score,
         )
-        logging.info(alignment_score)
-        logging.info(combined_quality_score)
-        logging.info(lpips_score)
-        logging.info(ssim_score)
+        logging.info(f'alignment_score: {alignment_score}')
+        logging.info(f'combined_quality_score: {combined_quality_score}')
+        logging.info(f'lpips_score: {lpips_score}')
+        logging.info(f'ssim_score: {ssim_score}')
+
         return self._compute_final_score(validation_results)
