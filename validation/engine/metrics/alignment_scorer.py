@@ -87,6 +87,8 @@ class TextVSImageMetric:
         preprocessed_images = self.preprocess_images(images, img_preproc_res)
         tokenized_prompt = self.tokenize_prompt(prompt)
         print('tokenized_prompt: ' , tokenized_prompt)
+        logging.info('tokenized_prompt')
+        logging.info(tokenized_prompt)
         with torch.no_grad(), torch.amp.autocast(self._device.type):
             image_features = self._model.encode_image(preprocessed_images)
             text_features = self._model.encode_text(tokenized_prompt)
