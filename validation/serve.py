@@ -6,7 +6,7 @@ from collections.abc import AsyncGenerator
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from time import time
-
+import os
 import numpy as np
 import pybase64
 import pyspz
@@ -234,7 +234,8 @@ def decode_and_validate_txt(
     )
     
     logging.info(request.prompt)
-    renderer.save_rendered_images(gs_rendered_images, "test", f"/workspace/vol_sub17/{request.prompt}")
+    file_dir = os.path.join("/workspace/vol_sub17/test/", request.prompt[0:-1])
+    renderer.save_rendered_images(gs_rendered_images, "test", file_dir)
 
     if gs_data is not None and request.prompt is not None:
         t2 = time()
