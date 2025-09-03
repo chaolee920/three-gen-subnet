@@ -234,7 +234,7 @@ def decode_and_validate_txt(
     )
     
     logging.info(request.prompt)
-    file_dir = os.path.join("/workspace/vol_sub17/test/", request.prompt[0:-1])
+    file_dir = os.path.join("/workspace/test/", request.prompt[0:-1])
     renderer.save_rendered_images(gs_rendered_images, "test", file_dir)
 
     if gs_data is not None and request.prompt is not None:
@@ -251,6 +251,7 @@ def decode_and_validate_txt(
         )
         time_stat.total_time = time() - t1
     else:
+        print(f"Invalid input data: {request.prompt}")
         response = ValidationResponse(score=0.0)
     return response, time_stat
 
