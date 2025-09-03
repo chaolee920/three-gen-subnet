@@ -260,6 +260,7 @@ async def validate_txt_to_3d_ply(request: ValidationRequest) -> ValidationRespon
     """
     Validates the input prompt and PLY data to produce scores.
     """
+    torch.cuda.empty_cache()
     try:
         loop = asyncio.get_running_loop()
         response, time_stat = await loop.run_in_executor(
