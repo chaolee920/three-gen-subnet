@@ -19,7 +19,7 @@ class ValidationEngine:
     """Class that handles all validation metrics"""
 
     def __init__(self, verbose: bool = False) -> None:
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         torch.set_default_device(self.device)
 
         self._verbose = verbose

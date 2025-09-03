@@ -7,7 +7,7 @@ from pytod.models.knn import KNN
 def filter_outliers(input_data: torch.Tensor) -> torch.Tensor:
     """Function for filtering the outliers"""
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
     clf = KNN(device=device.type)
 
     # normalizing clip scores to range [0, 1] and sorting

@@ -18,7 +18,7 @@ from engine.rendering.renderer import Renderer
 
 current_file_path = Path(__file__).resolve()
 test_data_folder = current_file_path.parent / "resources"
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
 
 
 def test_gs_renderer_ply():

@@ -10,7 +10,7 @@ class GaussianSplattingRenderer:
     """Class that implements gaussian splatting rasterization and rendering implementation"""
 
     def __init__(self) -> None:
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         torch.set_default_device(self._device)
 
         self._camera_views_proj: torch.Tensor | None = None

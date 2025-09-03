@@ -12,7 +12,7 @@ class ImageQualityMetric:
 
     def __init__(self, verbose: bool = False) -> None:
         self._quality_classifier_model: QualityClassifierModel = QualityClassifierModel()
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         torch.set_default_device(self._device)
         self._verbose = verbose
 

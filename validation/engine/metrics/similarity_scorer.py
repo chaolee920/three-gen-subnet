@@ -13,7 +13,7 @@ class SimilarityMetrics:
     """Metric that computes two similarity scores: SSIM and LPIPS"""
 
     def __init__(self) -> None:
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         self._lpips_metric: LearnedPerceptualImagePatchSimilarity | None = None
         self._ssim_metric: StructuralSimilarityIndexMeasure | None = None
 

@@ -16,7 +16,7 @@ class OrbitCamera:
         z_far: float = 100,
         degrees: bool = True,
     ):
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         torch.set_default_device(self._device)
 
         # setting camera transform: camera -> world

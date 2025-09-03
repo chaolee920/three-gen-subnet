@@ -66,7 +66,7 @@ def test_input_data_validity():
                     rotations=torch.zeros(size=(points.shape[0], 4)),
                     sh_degree=torch.tensor(1),
                 )
-                gs_data_gpu = gs_data.send_to_device(torch.device("cuda"))
+                gs_data_gpu = gs_data.send_to_device(torch.device("cuda:3"))
                 responses.append(is_input_data_valid(gs_data_gpu))
 
     responses_gr_t = [

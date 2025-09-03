@@ -16,7 +16,7 @@ class QualityClassifierModel:
     """
 
     def __init__(self) -> None:
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         self._model: nn.Module | None = None
         self._model_path = ""
         self._emb_dim = 256

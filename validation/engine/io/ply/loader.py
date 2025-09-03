@@ -11,7 +11,7 @@ from engine.utils.gs_data_checker_utils import sigmoid
 
 class PlyLoader:
     def __init__(self) -> None:
-        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self._device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
         self._sh_c0 = 0.28209479177387814
         self._mean_coeff_dc_features = 0.5
 
