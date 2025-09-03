@@ -9,7 +9,7 @@ from engine.utils.gs_data_checker_utils import sigmoid
 import logging
 # Configure basic logging to a file
 logging.basicConfig(
-    filename='/workspace/vol_sub17/logs/test.log',  # Name of the log file
+    filename='/workspace/logs/test.log',  # Name of the log file
     level=logging.INFO,  # Minimum logging level to capture (e.g., INFO, DEBUG, WARNING, ERROR, CRITICAL)
     format='%(asctime)s - %(levelname)s - %(message)s',  # Format of log messages
     filemode='a'  # File mode: 'a' for append (default), 'w' for overwrite
