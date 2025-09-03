@@ -251,7 +251,6 @@ def decode_and_validate_txt(
         )
         time_stat.total_time = time() - t1
     else:
-        print(f"Invalid input data: {request.prompt}")
         response = ValidationResponse(score=0.0)
     return response, time_stat
 
@@ -274,6 +273,7 @@ async def validate_txt_to_3d_ply(request: ValidationRequest) -> ValidationRespon
         )
     except Exception as e:
         logger.exception(e)
+        print(f"Exception: {e}")
         response = ValidationResponse(score=0.0)
     finally:
         _cleanup()
